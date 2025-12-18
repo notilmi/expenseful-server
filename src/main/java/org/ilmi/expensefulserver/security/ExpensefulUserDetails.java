@@ -5,6 +5,7 @@ import org.ilmi.expensefulserver.domain.User;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -33,7 +34,7 @@ public class ExpensefulUserDetails implements UserDetails {
         this.username = user.getName();
         this.password = user.getPassword();
         this.email = user.getEmail();
-        this.authorities = List.of();
+        this.authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override

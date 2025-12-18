@@ -82,4 +82,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .maxAge(0)
                 .build();
     }
+
+    @Override
+    public User getSession(Authentication authentication) {
+        ExpensefulUserDetails userDetails = (ExpensefulUserDetails) authentication.getPrincipal();
+
+        return userPersistenceAdapter.findById(userDetails.getId())
+                .orElseThrow(UserNotFoundException::new);
+    }
 }

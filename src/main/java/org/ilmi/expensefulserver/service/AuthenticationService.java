@@ -2,6 +2,7 @@ package org.ilmi.expensefulserver.service;
 
 import org.ilmi.expensefulserver.domain.User;
 import org.springframework.http.ResponseCookie;
+import org.springframework.security.core.Authentication;
 
 public interface AuthenticationService {
     /**
@@ -25,4 +26,6 @@ public interface AuthenticationService {
      * Logs out a user by invalidating the provided token.
      */
     ResponseCookie logout();
+
+    User getSession(Authentication authentication);
 }

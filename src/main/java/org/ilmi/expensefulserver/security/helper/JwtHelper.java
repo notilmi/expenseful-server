@@ -116,7 +116,7 @@ public class JwtHelper {
             final Authentication authentication,
             final UserDetails userDetails
     ) {
-        return new UsernamePasswordAuthenticationToken(userDetails, "");
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
 }

@@ -3,19 +3,25 @@ package org.ilmi.expensefulserver.input.web;
 import jakarta.validation.Valid;
 import org.ilmi.expensefulserver.input.web.data.input.LoginDTO;
 import org.ilmi.expensefulserver.input.web.data.input.RegisterDTO;
+import org.ilmi.expensefulserver.input.web.data.output.UserDTO;
+import org.ilmi.expensefulserver.input.web.data.output.mapper.UserDTOMapper;
 import org.ilmi.expensefulserver.service.AuthenticationService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
+    private final UserDTOMapper userDTOMapper;
 
-    public AuthenticationController(AuthenticationService authenticationService) {
+    public AuthenticationController(AuthenticationService authenticationService, UserDTOMapper userDTOMapper) {
         this.authenticationService = authenticationService;
+        this.userDTOMapper = userDTOMapper;
     }
 
     @PostMapping("/login")
@@ -55,6 +61,16 @@ public class AuthenticationController {
                 .body("Logout successful");
     }
 
+    @GetMapping("/session")
+    public ResponseEntity<UserDTO> getSession(
+            @AuthenticationPrincipal Authentication authentication
+            ) {
+        var sessionUser = authenticationService.getSession(authentication);
+
+        return ResponseEntity.ok(
+                userDTOMapper.toDTO(sessionUser)
+        );
+    }
     
 
 }
