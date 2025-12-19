@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.ilmi.expensefulserver.domain.StatementType;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,7 +31,7 @@ public class StatementEntity {
     private Double amount;
 
     @Column(nullable = false)
-    private String date;
+    private LocalDate date;
 
     @Column(nullable = false)
     private StatementType type;

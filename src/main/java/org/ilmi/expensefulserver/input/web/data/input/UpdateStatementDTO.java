@@ -29,7 +29,6 @@ public class UpdateStatementDTO {
     private Double amount;
 
     @NotNull(message = "Date is required")
-    @Past(message = "Date must be in the past")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 

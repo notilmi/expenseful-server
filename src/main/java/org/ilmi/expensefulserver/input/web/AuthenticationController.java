@@ -3,6 +3,7 @@ package org.ilmi.expensefulserver.input.web;
 import jakarta.validation.Valid;
 import org.ilmi.expensefulserver.input.web.data.input.LoginDTO;
 import org.ilmi.expensefulserver.input.web.data.input.RegisterDTO;
+import org.ilmi.expensefulserver.input.web.data.output.LoginResponseDTO;
 import org.ilmi.expensefulserver.input.web.data.output.UserDTO;
 import org.ilmi.expensefulserver.input.web.data.output.mapper.UserDTOMapper;
 import org.ilmi.expensefulserver.service.AuthenticationService;
@@ -25,7 +26,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(
+    public ResponseEntity<LoginResponseDTO> login(
             @RequestBody @Valid LoginDTO request
     ) {
         ResponseCookie accessToken = authenticationService.authenticate(request.getEmail(), request.getPassword());
@@ -37,16 +38,22 @@ public class AuthenticationController {
 
         return ResponseEntity.ok()
                 .headers(responseHeaders)
-                .body("Login successful");
+                .body(
+                        LoginResponseDTO.builder()
+                                .accessToken(accessToken.getValue())
+                                .build()
+                );
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(
+    public ResponseEntity<UserDTO> register(
             @RequestBody @Valid RegisterDTO request
     ) {
-        authenticationService.register(request.getEmail(), request.getName(), request.getPassword());
+        var createdUser = authenticationService.register(request.getEmail(), request.getName(), request.getPassword());
 
-        return ResponseEntity.ok("Registration successful");
+        return ResponseEntity
+                .ok()
+                .body(userDTOMapper.toDTO(createdUser));
     }
 
     @GetMapping("/logout")

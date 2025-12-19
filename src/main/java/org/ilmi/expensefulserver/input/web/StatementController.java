@@ -36,7 +36,7 @@ public class StatementController {
                 request.getTitle(),
                 request.getCategory(),
                 request.getAmount(),
-                request.getDate(),
+                request.getDate(), // Convert to yyyy-MM-dd
                 StatementType.valueOf(request.getType()),
                 userDetails.getId()
         );
