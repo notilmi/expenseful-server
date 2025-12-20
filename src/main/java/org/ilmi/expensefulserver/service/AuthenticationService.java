@@ -1,6 +1,8 @@
 package org.ilmi.expensefulserver.service;
 
 import org.ilmi.expensefulserver.domain.User;
+import org.ilmi.expensefulserver.security.ExpensefulUserDetails;
+import org.jspecify.annotations.Nullable;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 
@@ -27,5 +29,7 @@ public interface AuthenticationService {
      */
     ResponseCookie logout();
 
-    User getSession(Authentication authentication);
+    User getSession(ExpensefulUserDetails userDetails);
+
+    User editProfile(ExpensefulUserDetails userDetails, @Nullable String name, @Nullable String password);
 }

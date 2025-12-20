@@ -84,10 +84,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public User getSession(Authentication authentication) {
-        ExpensefulUserDetails userDetails = (ExpensefulUserDetails) authentication.getPrincipal();
-
+    public User getSession(ExpensefulUserDetails userDetails) {
         return userPersistenceAdapter.findById(userDetails.getId())
                 .orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    public User editProfile(ExpensefulUserDetails userDetails, String name, String password) {
+        User user = userPersistenceAdapter.findById(userDetails.getId())
+                .orElseThrow(UserNotFoundException::new);
+
+        if (name != null) {
+            user.setName(name);
+        }
+
+        if (password != null) {
+            user.setPassword(passwordEncoder.encode(password));
+        }
+
+        return userPersistenceAdapter.save(user);
     }
 }

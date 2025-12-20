@@ -1,11 +1,13 @@
 package org.ilmi.expensefulserver.input.web;
 
 import jakarta.validation.Valid;
+import org.ilmi.expensefulserver.input.web.data.input.EditProfileDTO;
 import org.ilmi.expensefulserver.input.web.data.input.LoginDTO;
 import org.ilmi.expensefulserver.input.web.data.input.RegisterDTO;
 import org.ilmi.expensefulserver.input.web.data.output.LoginResponseDTO;
 import org.ilmi.expensefulserver.input.web.data.output.UserDTO;
 import org.ilmi.expensefulserver.input.web.data.output.mapper.UserDTOMapper;
+import org.ilmi.expensefulserver.security.ExpensefulUserDetails;
 import org.ilmi.expensefulserver.service.AuthenticationService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -70,14 +72,29 @@ public class AuthenticationController {
 
     @GetMapping("/session")
     public ResponseEntity<UserDTO> getSession(
-            @AuthenticationPrincipal Authentication authentication
+            @AuthenticationPrincipal ExpensefulUserDetails userDetails
             ) {
-        var sessionUser = authenticationService.getSession(authentication);
+        var sessionUser = authenticationService.getSession(userDetails);
 
         return ResponseEntity.ok(
                 userDTOMapper.toDTO(sessionUser)
         );
     }
-    
+
+    @PatchMapping("/profile")
+    public ResponseEntity<UserDTO> editProfile(
+            @AuthenticationPrincipal ExpensefulUserDetails userDetails,
+            @RequestBody @Valid EditProfileDTO request
+    ) {
+        var updatedUser = authenticationService.editProfile(
+                userDetails,
+                request.getName(),
+                request.getPassword()
+        );
+
+        return ResponseEntity.ok(
+                userDTOMapper.toDTO(updatedUser)
+        );
+    }
 
 }
