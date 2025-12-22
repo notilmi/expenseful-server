@@ -1,5 +1,6 @@
 package org.ilmi.expensefulserver.input.web;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.ilmi.expensefulserver.input.web.data.input.EditProfileDTO;
 import org.ilmi.expensefulserver.input.web.data.input.LoginDTO;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@Tag(name = "Authentication", description = "Endpoints for user authentication and profile management")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final UserDTOMapper userDTOMapper;

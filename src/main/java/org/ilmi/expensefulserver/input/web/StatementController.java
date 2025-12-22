@@ -1,5 +1,6 @@
 package org.ilmi.expensefulserver.input.web;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.ilmi.expensefulserver.domain.StatementType;
 import org.ilmi.expensefulserver.input.web.data.input.CreateStatementDTO;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/statement")
+@Tag(name = "Statement", description = "Endpoints for managing statements")
 public class StatementController {
     private final StatementService statementService;
     private final StatementDTOMapper statementDTOMapper;

@@ -21,6 +21,7 @@ import org.springframework.http.HttpMethod;
 @Configuration
 public class SecurityConfig {
     private final AuthEntryPointJwt authEntryPointJwt;
+
     @Value("${security.allowed_origins}")
     private String ALLOWED_ORIGINS;
 
